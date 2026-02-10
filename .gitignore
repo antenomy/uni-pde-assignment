@@ -39,6 +39,8 @@ codegen/
 *.sbproj.backup
 *.sbproj.bak
 
-# PDE toolbox resources
+# project resources and stuff
 
 resources/
+src.prj
+toolbox.ignore
