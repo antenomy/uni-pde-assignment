@@ -44,3 +44,5 @@ codegen/
 resources/
 src.prj
 toolbox.ignore
+
+.DS_Store
