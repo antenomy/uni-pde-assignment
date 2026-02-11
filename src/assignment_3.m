@@ -1,22 +1,37 @@
+N_values = [10, 20, 40, 80, 160, 320];
+errors = zeros(size(N_values));
 
-% Number of nodes
-N = 40;
+% comparison value
+u_exact = @(x) log(1 + x);
+§
+for i = 1:length(N_values)
+    N = N_values(i);
+    
+    [X, U] = fem_1d_heat(@(x) 1+x, @(x) 0, 1, N, 1);
+    
+    % calculate exact U at these node points
+    U_true = u_exact(X);
+    
+    % calculate L2 Error Norm
+    diff = U - U_true;
+    dx = 1/N;
+    
+    errors(i) = sqrt(sum(diff.^2) * dx);
+end
 
-% Heat flux at rod end
-g = 1;
-
-% Arbitrary functions
-a_func = @(x) 1 + x; 
-f_func = @(x) 0;
-
-% Solve with 1-point gaussian
-[X_1, U_1] = fem_1d_heat(a_func, f_func, g, N, 1);
 figure(1);
-plot(X_1, U_1, '-or');
-% Solve with 2-point gaussian
-[X_2, U_2] = fem_1d_heat(a_func, f_func, g, N, 2);
-hold on;
-plot(X_2, U_2, '-ob');
+loglog(N_values, errors, '-s', 'LineWidth', 2);
+grid on;
+xlabel('Number of Elements (N)');
+ylabel('L2 Error Norm');
+title('Convergence Rate Analysis');
+
+p = polyfit(log(1./N_values), log(errors), 1);
+slope = p(1);
+
+legend(['FEM Error (Slope \approx ' num2str(slope, '%.2f') ')']);
+
+
 
 function [X, U, K, F] = fem_1d_heat(a_func, f_func, g, N, point_count)
 %   FEM_1D_HEAT Solves a 1D steady-state heat equation using the Finite Element Method.
