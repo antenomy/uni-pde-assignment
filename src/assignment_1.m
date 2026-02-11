@@ -1,22 +1,42 @@
 
 % Number of nodes
-N = 40;
+N = 10;
+
 
 % Heat flux at rod end
 g = 1;
 
 % Arbitrary functions
-a_func = @(x) 1 + x; 
-f_func = @(x) 0;
+%a_func = @(x) 1 + x; 
+%f_func = @(x) 0;
+
+a_func = @(x) exp(x); 
+f_func = @(x) exp(x);
+
+% Exact solution plotting stuff
+u_exact = @(x) -(1+exp(1)).*exp(-x) + 1 +exp(1) - x;
+N_exact = 300;
+X_exact = linspace(0, 1, N_exact+1)';
+U_exact = u_exact(X_exact);
+
 
 % Solve with 1-point gaussian
 [X_1, U_1] = fem_1d_heat(a_func, f_func, g, N, 1);
 figure(1);
+hold on;
+grid on;
 plot(X_1, U_1, '-or');
 % Solve with 2-point gaussian
 [X_2, U_2] = fem_1d_heat(a_func, f_func, g, N, 2);
-hold on;
+
 plot(X_2, U_2, '-ob');
+
+plot(X_exact, U_exact, '-');
+legend(["Point-1", "Point-2", "Exact Solution"]);
+xlabel('x');
+ylabel('u(x)');
+title('Finite Element Method approximation of u(x)');
+hold off;
 
 function [X, U, K, F] = fem_1d_heat(a_func, f_func, g, N, point_count)
 %   FEM_1D_HEAT Solves a 1D steady-state heat equation using the Finite Element Method.
