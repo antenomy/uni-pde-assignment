@@ -2,10 +2,11 @@ N_values = [10, 20, 40, 80, 160, 320];
 
 g = 1;
 % comparison value
-%a_func = @(x) 1 + x; 
-%f_func = @(x) 0;
-%u_exact = @(x) log(1 + x);
+% a_func = @(x) 1 + x; 
+% f_func = @(x) 0;
+% u_exact = @(x) log(1 + x);
 
+p = zeros(2, 1);
 
 a_func = @(x) exp(x); 
 f_func = @(x) exp(x);
@@ -30,21 +31,17 @@ for k = 1:2
     end
 
     loglog(N_values, errors, '-s');
+    p_temp = polyfit(log(1./N_values), log(errors), 1)
+    p(k) = p_temp(1);
     hold on;
 end
 
 grid on;
-legend(["1-point", "2-point"]);
+legend(["1-point, slope " + p(1), "2-point, slope " + p(2)]);
 xlabel('Number of Elements (N)');
 ylabel('L2 Error Norm');
 title('Convergence Rate Analysis');
 hold off;
-
-p = polyfit(log(1./N_values), log(errors), 1);
-slope = p(1);
-
-%legend(['FEM Error (Slope \approx ' num2str(slope, '%.2f') ')']);
-
 
 
 function [X, U, K, F] = fem_1d_heat(a_func, f_func, g, N, point_count)
