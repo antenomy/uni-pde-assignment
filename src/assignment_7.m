@@ -32,29 +32,6 @@ hold off;
 
 saveas(gcf, 'p7_log10stepnorm.png');
 
-%[X, u, iters, step_history, deltaBound] = solve_tend_gradient(epsilon, N, delta, max_iterations, tol);
-%figure;
-%hold on; 
-%grid on;
-%plot(X, u); 
-%xlabel('r');
-%ylabel('U(r)');
-%hold off;
-
-%figure;
-%hold on; 
-%grid on;
-%semilogy(step_history); 
-%xlabel('iterations');
-%ylabel('step norm');
-%hold off;
-
-%disp(iters);
-%disp(step_history(end));
-%disp(deltaBound);
-
-
-
 function [X, u, iters, step_history, deltaBound] = solve_tend_gradient(epsilon, N, delta, max_iterations, tol)
     [nodes_ref, weights] = gauss_ref();
 

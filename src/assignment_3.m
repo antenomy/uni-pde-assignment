@@ -2,15 +2,15 @@ N_values = [10, 20, 40, 80, 160, 320];
 
 g = 1;
 % comparison value
-% a_func = @(x) 1 + x; 
-% f_func = @(x) 0;
-% u_exact = @(x) log(1 + x);
+a_func = @(x) 1 + x; 
+f_func = @(x) 0;
+u_exact = @(x) log(1 + x);
 
 p = zeros(2, 1);
 
-a_func = @(x) exp(x); 
-f_func = @(x) exp(x);
-u_exact = @(x) -(1+exp(1)).*exp(-x) +1 +exp(1) - x;
+% a_func = @(x) exp(x); 
+% f_func = @(x) exp(x);
+% u_exact = @(x) -(1+exp(1)).*exp(-x) +1 +exp(1) - x;
 
 figure(1);
 for k = 1:2

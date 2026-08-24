@@ -9,12 +9,6 @@ grid on;
 for m = 1:numel(epsilons)
     [X, u] = solve_tent_fem(epsilons(m), N);
     plot(X, u, '-');
-    %solve_tent_fem(epsilon, N)
-
-    %epsilon = epsilons(m);
-    %h = (1-epsilon)/N;
-    
-    %dof_pos
 end
 
 legend(string(epsilons));
@@ -54,14 +48,6 @@ function [X, u] = solve_tent_fem(epsilon, N)
     index = 2:N;
     b = -A(index, 1)*u(1) - A(index, end)*u(end);
     u(index) = A(index, index) \ b;
-    
-    %b = zeros(num_edges, 1);
-    %for i = 2:N
-    %    b(i) = -A(i, 1)*u(1) - A(i, end)*u(end);
-    %    u(i) = A \ b;
-    %end
-
-
 end
 
 function X = get_mesh_nodes(epsilon, num_edges)
@@ -133,6 +119,4 @@ function stiff_global = compute_stiff_global(stiff_local, N)
         stiff_global(j, i) = stiff_global(j, i) + stiff_local(i, 3); %A21
         stiff_global(j, j) = stiff_global(j, j) + stiff_local(i, 4); %A22
     end
-
-    
 end
